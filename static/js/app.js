@@ -46,6 +46,29 @@ class APIRemote {
         }
     }
 
+    // Copy URL to clipboard
+    copyUrl(index) {
+        const urlElement = document.getElementById(`full-url-${index}`);
+        const url = urlElement.textContent;
+
+        navigator.clipboard.writeText(url).then(() => {
+            this.addLogEntry(`URL copied to clipboard: ${url}`, 'success');
+        }).catch(err => {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = url;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                this.addLogEntry(`URL copied to clipboard: ${url}`, 'success');
+            } catch (err) {
+                this.addLogEntry(`Failed to copy URL: ${err.message}`, 'error');
+            }
+            document.body.removeChild(textArea);
+        });
+    }
+
     // Send API request
     async sendRequest(index) {
         const endpointInput = document.getElementById(`send-endpoint-${index}`);
@@ -242,6 +265,10 @@ function closePayloadModal() {
 
 function savePayload() {
     apiRemote.savePayload();
+}
+
+function copyUrl(index) {
+    apiRemote.copyUrl(index);
 }
 
 // Initialize when DOM is loaded

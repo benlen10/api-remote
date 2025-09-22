@@ -110,7 +110,6 @@ body {
 
 .log-panel {
     border-left: 4px solid var(--accent-orange);
-    grid-column: 1 / -1;
 }
 
 .panel-title {
@@ -197,23 +196,28 @@ body {
 
 .endpoint-url {
     margin-top: 8px;
-    font-size: 0.75rem;
-    padding: 6px 8px;
-    background-color: var(--primary-bg);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-}
-
-.url-label {
-    color: var(--secondary-text);
-    margin-right: 6px;
-    font-weight: 500;
+    display: flex;
+    justify-content: center;
 }
 
 .url-value {
     color: var(--accent-blue);
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.75rem;
     word-break: break-all;
+}
+
+.btn-copy {
+    background-color: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    white-space: nowrap;
+}
+
+.btn-copy:hover {
+    background-color: #00acc1;
 }
 
 /* Buttons */
@@ -439,11 +443,11 @@ body {
     }
 
     .header h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .panel-title {
-        font-size: 1.5rem;
+        font-size: 1rem;
     }
 
     .button-row {

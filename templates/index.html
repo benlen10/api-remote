@@ -16,6 +16,16 @@
             </div>
         </header>
 
+        <!-- Status Log -->
+        <section class="panel log-panel">
+            <h2 class="panel-title">STATUS LOG</h2>
+            <div class="log-container" id="log-container">
+                <div class="log-content" id="log-content">
+                    <div class="log-entry">System initialized - Ready to send and receive</div>
+                </div>
+            </div>
+        </section>
+
         <div class="grid">
             <!-- Send Section -->
             <section class="panel send-panel">
@@ -31,7 +41,7 @@
                                placeholder="https://api.example.com/endpoint{{ i + 1 }}"
                                value="{% if send_endpoints and i < send_endpoints|length %}{{ send_endpoints[i] }}{% endif %}">
                         <div class="button-row">
-                            <button class="btn btn-edit" onclick="openPayloadModal({{ i }}, 'send')">EDIT PAYLOAD</button>
+                            <button class="btn btn-edit" onclick="openPayloadModal({{ i }}, 'send')">EDIT</button>
                             <button class="btn btn-send" onclick="sendRequest({{ i }})">SEND</button>
                         </div>
                     </div>
@@ -54,24 +64,14 @@
                                value="{% if receive_endpoints and i < receive_endpoints|length %}{{ receive_endpoints[i] }}{% endif %}"
                                readonly>
                         <div class="endpoint-url">
-                            <span class="url-label">FULL URL:</span>
-                            <span class="url-value" id="full-url-{{ i }}">http://localhost:6001{% if receive_endpoints and i < receive_endpoints|length %}{{ receive_endpoints[i] }}{% else %}/webhook{{ i + 1 }}{% endif %}</span>
+                            <button class="btn btn-copy" onclick="copyUrl({{ i }})">COPY URL</button>
+                            <span class="url-value" id="full-url-{{ i }}" style="display: none;">http://localhost:6001{% if receive_endpoints and i < receive_endpoints|length %}{{ receive_endpoints[i] }}{% else %}/webhook{{ i + 1 }}{% endif %}</span>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
             </section>
         </div>
-
-        <!-- Status Log -->
-        <section class="panel log-panel">
-            <h2 class="panel-title">STATUS LOG</h2>
-            <div class="log-container" id="log-container">
-                <div class="log-content" id="log-content">
-                    <div class="log-entry">System initialized - Ready to send and receive</div>
-                </div>
-            </div>
-        </section>
     </div>
 
     <!-- Payload Modal -->
