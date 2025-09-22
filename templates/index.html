@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API REMOTE</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>API REMOTE</h1>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                LIVE
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- Send Section -->
+            <section class="panel send-panel">
+                <h2 class="panel-title">SEND REQUESTS</h2>
+
+                <div class="endpoints-grid">
+                    {% for i in range(4) %}
+                    <div class="endpoint-card send-card">
+                        <label class="endpoint-label">ENDPOINT {{ i + 1 }}</label>
+                        <input type="text"
+                               id="send-endpoint-{{ i }}"
+                               class="endpoint-input"
+                               placeholder="https://api.example.com/endpoint{{ i + 1 }}"
+                               value="{% if send_endpoints and i < send_endpoints|length %}{{ send_endpoints[i] }}{% endif %}">
+                        <div class="button-row">
+                            <button class="btn btn-edit" onclick="openPayloadModal({{ i }}, 'send')">EDIT PAYLOAD</button>
+                            <button class="btn btn-send" onclick="sendRequest({{ i }})">SEND</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Receive Section -->
+            <section class="panel receive-panel">
+                <h2 class="panel-title">RECEIVE ENDPOINTS</h2>
+
+                <div class="endpoints-grid">
+                    {% for i in range(4) %}
+                    <div class="endpoint-card receive-card">
+                        <label class="endpoint-label">ENDPOINT {{ i + 1 }}</label>
+                        <input type="text"
+                               id="receive-endpoint-{{ i }}"
+                               class="endpoint-input"
+                               placeholder="/webhook{{ i + 1 }}"
+                               value="{% if receive_endpoints and i < receive_endpoints|length %}{{ receive_endpoints[i] }}{% endif %}"
+                               readonly>
+                        <div class="endpoint-url">
+                            <span class="url-label">FULL URL:</span>
+                            <span class="url-value" id="full-url-{{ i }}">http://localhost:6001{% if receive_endpoints and i < receive_endpoints|length %}{{ receive_endpoints[i] }}{% else %}/webhook{{ i + 1 }}{% endif %}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+
+        <!-- Status Log -->
+        <section class="panel log-panel">
+            <h2 class="panel-title">STATUS LOG</h2>
+            <div class="log-container" id="log-container">
+                <div class="log-content" id="log-content">
+                    <div class="log-entry">System initialized - Ready to send and receive</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Payload Modal -->
+    <div id="payload-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">EDIT PAYLOAD</h3>
+                <button class="btn btn-close" onclick="closePayloadModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-controls" id="modal-controls" style="margin-bottom: 16px;">
+                    <label class="modal-label">REQUEST METHOD</label>
+                    <select id="modal-method-select" class="modal-method-select">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                        <option value="PATCH">PATCH</option>
+                    </select>
+                </div>
+                <div class="modal-payload-section">
+                    <label class="modal-label">PAYLOAD JSON</label>
+                    <textarea id="payload-editor" class="payload-editor" placeholder='{"key": "value"}'></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closePayloadModal()">CANCEL</button>
+                <button class="btn btn-save" onclick="savePayload()">SAVE</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
